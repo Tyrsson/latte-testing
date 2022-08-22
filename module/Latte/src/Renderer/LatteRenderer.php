@@ -11,8 +11,17 @@ use Latte\Engine;
 
 class LatteRenderer implements RendererInterface, TreeRendererInterface
 {
+    /** @var array<mixed> $config */
+    protected $config;
     /** @var Engine $engine */
     protected $engine;
+
+    public function __construct(Engine $engine, array $config)
+    {
+        $this->config = $config;
+        $this->engine = $engine;
+    }
+
     /**
      * Return the template engine object, if any
      *
@@ -54,6 +63,6 @@ class LatteRenderer implements RendererInterface, TreeRendererInterface
      */
     public function render($nameOrModel, $values = null)
     {
-        return $this->getEngine()->render($nameOrModel, $values);
+        return $this->getEngine()->render($nameOrModel->getTemplate(), $values ?? []);
     }
 }
