@@ -7,6 +7,7 @@ namespace Application;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Latte\Essential\RawPhpExtension;
 
 return [
     'router' => [
@@ -27,7 +28,6 @@ return [
                     'route'    => '/application[/:action]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
                     ],
                 ],
             ],
@@ -36,6 +36,11 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+        ],
+    ],
+    'latte_manager' => [
+        'extensions' => [
+            RawPhpExtension::class,
         ],
     ],
     'view_manager' => [

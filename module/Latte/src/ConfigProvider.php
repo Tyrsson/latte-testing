@@ -27,22 +27,14 @@ class ConfigProvider
         ];
     }
 
-    public function getViewConfig(): array
-    {
-        return [
-            'strategies' => [
-                Strategy\LatteRendererStrategy::class,
-            ],
-        ];
-    }
-
-    /** This method will be used by other modules to push extensions into the pluginmanager */
+    /** This method will/can be used by other modules to push extensions into the pluginmanager */
     public function getLatteConfig(): array
     {
         return [
             'latte_cache_path'    => __DIR__ . '/../../../data/latte',
-            'latte_template_path' => __DIR__ . '/../../../../../module/Application/view',
-            'extensions'          => [],
+            'latte_template_path' => __DIR__ . '/../../../module/Application/view',
+            'template_ext'        => '.latte',
+            //'extensions'          => [],
         ];
     }
 }

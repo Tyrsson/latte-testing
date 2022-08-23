@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Latte\Renderer;
 
-use Laminas\View\Renderer\RendererInterface;
-use Laminas\View\Renderer\TreeRendererInterface;
-use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\Renderer\PhpRenderer;
 use Latte\Engine;
 
-class LatteRenderer implements RendererInterface, TreeRendererInterface
+class LatteRenderer extends PhpRenderer
 {
     /** @var array<mixed> $config */
     protected $config;
     /** @var Engine $engine */
     protected $engine;
+    /** @var string $extension */
+    protected $extension;
 
     public function __construct(Engine $engine, array $config)
     {
-        $this->config = $config;
-        $this->engine = $engine;
+        $this->config    = $config;
+        $this->engine    = $engine;
+        $this->extension = $this->config['latte_manager']['template_ext'] ?? '.phtml';
     }
 
     /**
@@ -40,21 +41,6 @@ class LatteRenderer implements RendererInterface, TreeRendererInterface
     }
 
     /**
-     * Set the resolver used to map a template name to a resource the renderer may consume.
-     *
-     * @return RendererInterface
-     */
-    public function setResolver(ResolverInterface $resolver)
-    {
-
-    }
-
-    public function canRenderTrees()
-    {
-
-    }
-
-    /**
      * Processes a view script and returns the output.
      *
      * @param  string|ModelInterface   $nameOrModel The script/resource process, or a view model
@@ -63,6 +49,9 @@ class LatteRenderer implements RendererInterface, TreeRendererInterface
      */
     public function render($nameOrModel, $values = null)
     {
-        return $this->getEngine()->render($nameOrModel->getTemplate(), $values ?? []);
+        return $this->getEngine()->render(
+            $nameOrModel->getTemplate() . $this->extension,
+            $nameOrModel->getVariables()
+        );
     }
 }

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Latte\Strategy;
 
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\View\ViewEvent;
+use Latte\Model\LatteModel;
 use Latte\Renderer\LatteRenderer;
 
 class LatteRendererStrategy extends AbstractListenerAggregate
@@ -35,11 +38,15 @@ class LatteRendererStrategy extends AbstractListenerAggregate
     }
 
     /**
-     * Select the PhpRenderer; typically, this will be registered last or at
-     * low priority.
+     * By checking the type here, we can allow the default PhpRenderer to handle it
+     * if we simply return
      */
-    public function selectRenderer(ViewEvent $e): LatteRenderer
+    public function selectRenderer(ViewEvent $e)
     {
+        $model = $e->getModel();
+        if (! $model instanceof LatteModel) {
+            return;
+        }
         return $this->renderer;
     }
 
@@ -61,18 +68,6 @@ class LatteRendererStrategy extends AbstractListenerAggregate
 
         $result = $e->getResult();
 
-        // Set content
-        // If content is empty, check common placeholders to determine if they are
-        // populated, and set the content from them.
-        // if (empty($result)) {
-        //     $placeholders = $renderer->plugin('placeholder');
-        //     foreach ($this->contentPlaceholders as $placeholder) {
-        //         if ($placeholders->containerExists($placeholder)) {
-        //             $result = (string) $placeholders->getContainer($placeholder);
-        //             break;
-        //         }
-        //     }
-        // }
         $response->setContent($result);
     }
 }

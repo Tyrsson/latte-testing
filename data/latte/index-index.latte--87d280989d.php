@@ -1,17 +1,23 @@
 <?php
-/**
- * @var Laminas\View\Renderer\PhpRenderer $this
- */
-?>
-<div class="jumbotron">
+
+use Latte\Runtime as LR;
+
+/** source: application/index/index.latte */
+final class Template87d280989d extends Latte\Runtime\Template
+{
+
+	public function main(array $ʟ_args): void
+	{
+		extract($ʟ_args);
+		unset($ʟ_args);
+
+		echo '<div class="jumbotron">
     <h1 class="display-4">Welcome to<br>Laminas MVC Skeleton Application</h1>
 
-    <p>
-        Congratulations! You have successfully installed the
-        <a href="https://github.com/laminas/laminas-mvc-skeleton" target="_blank">Laminas MVC Skeleton</a>.
-        This skeleton can serve as a simple starting point for you to begin
-        building your application on Laminas MVC.
-    </p>
+    <p>';
+		/* line 4 */;
+		echo $message;
+		echo '</p>
 
     <hr class="my-4">
 
@@ -58,7 +64,7 @@
                 If you need any help or support while developing with Laminas,
                 you may reach us via <a href="https://laminas.dev/chat">chat</a> or
                 <a href="https://discourse.laminas.dev">forum</a>.
-                We'd love to hear any questions or feedback you may have
+                We\'d love to hear any questions or feedback you may have
                 regarding any release.
             </p>
 
@@ -66,3 +72,6 @@
         </div>
     </div>
 </div>
+';
+	}
+}

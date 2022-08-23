@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Most of this file could have been ommitted but I left it here
+ * so you would not need to track usage from the parent class
+ * if I would have simply extended the ViewModel
+ * Also it provides a little more flexibility, I may
+ * in the next iteration remove everything that is not needed
+ */
+
 declare(strict_types=1);
 
 namespace Latte\Model;
@@ -25,6 +33,7 @@ use function sprintf;
 class LatteModel implements ModelInterface, ClearableModelInterface, RetrievableChildrenInterface
 {
     /**
+     * We will not be using this since its terminal, as in no layout
      * What variable a parent model should capture this model to
      *
      * @var string
@@ -54,10 +63,13 @@ class LatteModel implements ModelInterface, ClearableModelInterface, Retrievable
 
     /**
      * Is this a standalone, or terminal, model?
+     * This is VERY IMPORTANT as it prevents Laminas-View from
+     * attempting to use a Layout, which is not what we want
+     * since the template should call the layout itself
      *
      * @var bool
      */
-    protected $terminate = false;
+    protected $terminate = true;
 
     /**
      * View variables
